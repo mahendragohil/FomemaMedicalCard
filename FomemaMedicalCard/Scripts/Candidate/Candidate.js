@@ -56,7 +56,7 @@
             //pageNavigatorNextText: "...",
             //pageNavigatorPrevText: "...",
 
-            noDataContent: "No Candidate In The System",
+            noDataContent: "No Records to Display",
             onItemEditing: function (args) {
                 showDetailsDialog("Edit", args.item);
                 args.cancel = true;
@@ -106,6 +106,7 @@
                                     data: res,
                                     itemsCount: 0
                                 });
+                            alert('No candidate records match');
                         }
                     });
                     return result.promise();
@@ -254,6 +255,12 @@
     };
 
     function showDetailsDialog(dialogType, candidate) {
+        if (dialogType == 'Edit') {
+            $("#save").text("Update");
+        }
+        else {
+            $("#save").text("Save");
+        }
         $("#CandidateId").val(candidate.CandidateId);
         $("#CandidateGuid").val(candidate.CandidateGuid);
         $("#CountryName").val(candidate.CountryName);
