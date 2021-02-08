@@ -123,42 +123,42 @@
 
     @if (type == FomemaMedicalCard.Models.CommonEnums.UserType.Admin)
     {
-    <div class="d-flex justify-content-between">
-        <div></div>
-        <div>
-            <div class="form-check mt-2 mb-2">
-                <input class="form-check-input" type="checkbox" checked="checked" id="chkIsFilter">
-                <label class="form-check-label text-light" for="chkIsFilter">
-                    Is Filter Enable
-                </label>
+        <div class="d-flex justify-content-between">
+            <div></div>
+            <div>
+                <div class="form-check mt-2 mb-2">
+                    <input class="form-check-input" type="checkbox" checked="checked" id="chkIsFilter">
+                    <label class="form-check-label text-light" for="chkIsFilter">
+                        Is Filter Enable
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
     }
     else
     {
-    <div class="d-flex justify-content-between">
-        <div>
-            <form class="form-inline hide">
-                <div class="form-group mt-2 mb-2">
-                    <label for="searchPassportNo" class="mr-3 text-light">Search Candidate :</label>
-                    <input type="text" class="form-control form-control-sm" id="searchPassportNo" placeholder="Enter Passport No">
-                </div>
-                <button type="button" id="btnSearchFilter" class="btn btn-warning btn-sm mt-2 mb-2 ml-3">Search</button>
-            </form>
+        <div class="d-flex justify-content-between">
+            <div>
+                <form class="form-inline hide">
+                    <div class="form-group mt-2 mb-2">
+                        <label for="searchPassportNo" class="mr-3 text-light">Search Candidate :</label>
+                        <input type="text" class="form-control form-control-sm" id="searchPassportNo" placeholder="Enter Passport No">
+                    </div>
+                    <button type="button" id="btnSearchFilter" class="btn btn-warning btn-sm mt-2 mb-2 ml-3">Search</button>
+                </form>
+            </div>
         </div>
-    </div>
     }
 
     <div id="candidateGrid" style="background-color:aliceblue"></div>
 
-    <div id="detailsDialog">
+    <div id="detailsDialog" style="overflow-x:hidden">
         <form id="detailsForm" novalidate="novalidate">
             @Html.HiddenFor(model => model.CandidateId)
             @Html.HiddenFor(model => model.CandidateGuid)
             <div class="details-form-field">
-                @Html.LabelFor(model => model.CountryName, "Country Name:")
-                @Html.EditorFor(model => model.CountryName)
+                @Html.LabelFor(model => model.Name, "Name:")
+                @Html.EditorFor(model => model.Name)
             </div>
             <div class="details-form-field">
                 <div class="row">
@@ -186,13 +186,14 @@
                     </div>
                 </div>
             </div>
+
             <div class="details-form-field">
-                @Html.LabelFor(model => model.Name, "Name:")
-                @Html.EditorFor(model => model.Name)
+                @Html.LabelFor(model => model.CountryName, "Country Name:")
+                @Html.EditorFor(model => model.CountryName)
             </div>
             <div class="details-form-field">
-                @Html.LabelFor(model => model.DateofBirth, "DateofBirth:")
-                @Html.TextBoxFor(model => model.DateofBirth, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+                @Html.LabelFor(model => model.DateofBirth, "Date of Birth:")
+                @Html.TextBoxFor(model => model.DateofBirth, new { @class = "datepicker", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="details-form-field">
                 @Html.LabelFor(model => model.Age, "Age:")
@@ -223,19 +224,19 @@
             </div>
             <div class="details-form-field">
                 @Html.LabelFor(model => model.Covid19TestDate1, "Covid19 TestDate 1:")
-                @Html.TextBoxFor(model => model.Covid19TestDate1, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+                @Html.TextBoxFor(model => model.Covid19TestDate1, new { @class = "datepicker", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="details-form-field">
                 @Html.LabelFor(model => model.Covid19TestDate2, "Covid19 TestDate 2:")
-                @Html.TextBoxFor(model => model.Covid19TestDate2, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+                @Html.TextBoxFor(model => model.Covid19TestDate2, new { @class = "datepicker", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="details-form-field">
                 @Html.LabelFor(model => model.Covid19TestDate3, "Covid19 TestDate 3:")
-                @Html.TextBoxFor(model => model.Covid19TestDate3, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+                @Html.TextBoxFor(model => model.Covid19TestDate3, new { @class = "datepicker", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="details-form-field">
                 @Html.LabelFor(model => model.Covid19TestDate4, "Covid19 TestDate 4:")
-                @Html.TextBoxFor(model => model.Covid19TestDate4, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+                @Html.TextBoxFor(model => model.Covid19TestDate4, new { @class = "datepicker", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="details-form-field">
                 @Html.LabelFor(model => model.ClinicName, "Clinic Name:")
@@ -247,26 +248,26 @@
             </div>
             <div class="details-form-field">
                 @Html.LabelFor(model => model.VaccineDose1Date, "VaccineDose1Date:")
-                @Html.TextBoxFor(model => model.VaccineDose1Date, new { @class = "datepicker", autocomplete = "off",  @readonly="readonly" })
+                @Html.TextBoxFor(model => model.VaccineDose1Date, new { @class = "datepicker", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="details-form-field">
                 @Html.LabelFor(model => model.VaccineDose2Date, "Vaccine DoseDate 2:")
-                @Html.TextBoxFor(model => model.VaccineDose2Date, new { @class = "datepicker", autocomplete = "off", @readonly="readonly" })
+                @Html.TextBoxFor(model => model.VaccineDose2Date, new { @class = "datepicker", autocomplete = "off", @readonly = "readonly" })
             </div>
             <div class="details-form-field">
-                <button type="submit" id="save">Save</button>
+                <button type="submit" id="save" class="btn btn-warning btn-sm">Save</button>
             </div>
         </form>
     </div>
     <h4 id="headerCandidateDetails" class="text-light font-weight-bold mt-3" style="display:none">Candidate Details</h4>
     <div id="divCandidateDetails" class="border border-light rounded" style="display:none">
         <div class="row m-0 p-0">
-            <div class="col-md-2">
+            <div class="col-md-2 pr-2">
                 <div class="form-group mt-2">
-                    <img id="DTPictureURL" src="~/Content/Images/default-avatar-profile-icon.png" class="img-fluid mx-auto d-block" />
+                    <img id="DTPictureURL" src="~/Content/Images/default-avatar-profile-icon.png" class="img-fluid mt-4 pl-2 mx-auto d-block" />
                 </div>
             </div>
-            <div class="col-md-10 mt-3">
+            <div class="col-md-10 mt-3 pl-0">
                 <div class="row m-0 p-0">
                     <div class="col-md-3">
                         <div class="form-group">
