@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Fomema Medical Card</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Cleaning Company Website Template" name="keywords">
+    <meta content="Cleaning Company Website Template" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400&display=swap" rel="stylesheet">
+
+    <!-- CSS Libraries -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="~/Content/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/Content/lightbox/css/lightbox.min.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+   
+
+    <style>
+        #main-div {
+            height: 94vh; /* vh stands for view-port height, 1vh is 1% of screen height */
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="div-login" class="hero row align-items-center">
+        <div class="col-md-7">
+            <h2>Welcome to</h2>
+            <h2>Foreign Workers’ Medical Examination</h2>
+            <h2><span>Medical card system</span></h2>
+        </div>
+        <div class="col-md-5">
+            <div class="form">
+                <h3>Sign In</h3>
+                <form>
+                    <input id="text-userId" class="form-control" type="text" placeholder="Email or User Name">
+                    <input id="text-password" class="form-control" type="password" placeholder="Password">
+                    <button id="btn-login" type="button" class="btn btn-block">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="login-failed-div" class="container my-4 custom-hide">
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Error!</strong> Login Failed !
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/Content/easing/easing.min.js"></script>
+    <script src="~/Content/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/Content/isotope/isotope.pkgd.min.js"></script>
+    <script src="~/Content/lightbox/js/lightbox.min.js"></script>
+
+    <script src="~/Scripts/main.js"></script>
+    <script src="~/Scripts/Login/Index.js"></script>
+
+
+
+</body>
+</html>
+
+

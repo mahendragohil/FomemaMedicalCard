@@ -1,0 +1,350 @@
+﻿@model  FomemaMedicalCard.Models.CandidateModel
+@{
+    ViewBag.Title = "CandidateDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    FomemaMedicalCard.Models.CommonEnums.UserType type = ViewBag.UserType;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Fomema Medical Card</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Cleaning Company Website Template" name="keywords">
+    <meta content="Cleaning Company Website Template" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400&display=swap" rel="stylesheet">
+
+    <!-- CSS Libraries -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="~/Content/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/Content/lightbox/css/lightbox.min.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400&display=swap" rel="stylesheet">
+    @*<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />*@
+    <link href="~/Content/jsGrid/jsgrid.min.css" rel="stylesheet" />
+    <link href="~/Content/jsGrid/jsgrid-theme.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script>
+        var UserType = @type.GetHashCode();
+    </script>
+    <style>
+        #main-div {
+            height: 100vh; /* vh stands for view-port height, 1vh is 1% of screen height */
+        }
+
+        .ui-jqgrid .ui-jqgrid-bdiv {
+            position: relative;
+            margin: 0em;
+            padding: 0;
+            /*overflow: auto;*/
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button {
+            font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+            font-size: 14px;
+            font-weight: 300 !important;
+        }
+
+        .details-form-field input,
+        .details-form-field select {
+            width: 250px;
+            float: right;
+        }
+
+        .details-form-field {
+            margin: 30px 0;
+        }
+
+            .details-form-field:first-child {
+                margin-top: 10px;
+            }
+
+            .details-form-field:last-child {
+                margin-bottom: 10px;
+            }
+
+            .details-form-field button {
+                display: block;
+                width: 100px;
+                margin: 0 auto;
+            }
+
+        input.error, select.error {
+            border: 1px solid #ff9999;
+            background: #ffeeee;
+        }
+
+        label.error {
+            float: right;
+            margin-left: 100px;
+            font-size: .8em;
+            color: #ff6666;
+        }
+
+        .jsgrid-grid-header,
+        .jsgrid-grid-body {
+            overflow: auto;
+        }
+
+        .jsgrid-pager-current-page {
+            background: #365068;
+            color: white;
+        }
+
+        body {
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+        .jsgrid-header-row {
+            text-align: center;
+        }
+
+            .jsgrid-header-row > .jsgrid-header-cell {
+                background-color: aliceblue;
+            }
+    </style>
+
+</head>
+<body>
+
+    @if (type == FomemaMedicalCard.Models.CommonEnums.UserType.Admin)
+    {
+    <div class="d-flex justify-content-between">
+        <div></div>
+        <div>
+            <div class="form-check mt-2 mb-2">
+                <input class="form-check-input" type="checkbox" checked="checked" id="chkIsFilter">
+                <label class="form-check-label text-light" for="chkIsFilter">
+                    Is Filter Enable
+                </label>
+            </div>
+        </div>
+    </div>
+    }
+    else
+    {
+    <div class="d-flex justify-content-between">
+        <div>
+            <form class="form-inline hide">
+                <div class="form-group mt-2 mb-2">
+                    <label for="searchPassportNo" class="mr-3 text-light">Search Candidate :</label>
+                    <input type="text" class="form-control form-control-sm" id="searchPassportNo" placeholder="Enter Passport No">
+                </div>
+                <button type="button" id="btnSearchFilter" class="btn btn-warning btn-sm mt-2 mb-2 ml-3">Search</button>
+            </form>
+        </div>
+    </div>
+    }
+
+    <div id="candidateGrid" style="background-color:aliceblue"></div>
+
+    <div id="detailsDialog">
+        <form id="detailsForm" novalidate="novalidate">
+            @Html.HiddenFor(model => model.CandidateId)
+            @Html.HiddenFor(model => model.CandidateGuid)
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.CountryName, "Country Name:")
+                @Html.EditorFor(model => model.CountryName)
+            </div>
+            <div class="details-form-field">
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.PictureURL, "Candidate Picture:")
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="file" name="PictureFromComputer" value="Upload from computer" />
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" id="captureImage" class="btn btn-info btn-sm mt-3" onclick="startCamera()">Camera</button>
+                            </div>
+                            <div id="snapShot" class="col-md-12  mt-3">
+                                @*dynamically captured image will come here*@
+                                <img src="~/Content/Images/default-avatar-profile-icon.png" class="img-fluid mx-auto d-block" />
+                            </div>
+                            <div id="captureImagemodel" class="text-center" style="display:none">
+                                <div id="webcamLivePicture" style="width:360px; height:270px;" class="img-fluid mx-auto d-block">
+                                </div>
+                                <button type="button" id="takePicture" class="btn btn-info btn-sm mt-4">Take Picture</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.Name, "Name:")
+                @Html.EditorFor(model => model.Name)
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.DateofBirth, "DateofBirth:")
+                @Html.TextBoxFor(model => model.DateofBirth, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.Age, "Age:")
+                @Html.EditorFor(model => model.Age)
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.NewPassportNo, "New Passport No.:")
+                @Html.EditorFor(model => model.NewPassportNo)
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.OldPassportNo, " Passport No.:")
+                @Html.EditorFor(model => model.OldPassportNo)
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.FomemaTestYear, "Fomema Test Year:")
+                @Html.EditorFor(model => model.FomemaTestYear)
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.FomemaTestResult, "Fomema Test Result:")
+                @Html.DropDownListFor(model => model.FomemaTestResult,
+                new SelectList(
+        new List<SelectListItem>
+        {
+            new SelectListItem {Text = "-- Select Result --", Value = " "},
+            new SelectListItem {Text = "Suitable", Value = "Suitable"},
+            new SelectListItem {Text = "UnSuitable", Value = "UnSuitable"},
+        }, "Value", "Text"))
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.Covid19TestDate1, "Covid19 TestDate 1:")
+                @Html.TextBoxFor(model => model.Covid19TestDate1, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.Covid19TestDate2, "Covid19 TestDate 2:")
+                @Html.TextBoxFor(model => model.Covid19TestDate2, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.Covid19TestDate3, "Covid19 TestDate 3:")
+                @Html.TextBoxFor(model => model.Covid19TestDate3, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.Covid19TestDate4, "Covid19 TestDate 4:")
+                @Html.TextBoxFor(model => model.Covid19TestDate4, new { @class = "datepicker", autocomplete = "off",@readonly="readonly" })
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.ClinicName, "Clinic Name:")
+                @Html.EditorFor(model => model.ClinicName)
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.ClinicLocation, "Clinic Location:")
+                @Html.EditorFor(model => model.ClinicLocation)
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.VaccineDose1Date, "VaccineDose1Date:")
+                @Html.TextBoxFor(model => model.VaccineDose1Date, new { @class = "datepicker", autocomplete = "off",  @readonly="readonly" })
+            </div>
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.VaccineDose2Date, "Vaccine DoseDate 2:")
+                @Html.TextBoxFor(model => model.VaccineDose2Date, new { @class = "datepicker", autocomplete = "off", @readonly="readonly" })
+            </div>
+            <div class="details-form-field">
+                <button type="submit" id="save">Save</button>
+            </div>
+        </form>
+    </div>
+    <h4 id="headerCandidateDetails" class="text-light font-weight-bold mt-3" style="display:none">Candidate Details</h4>
+    <div id="divCandidateDetails" class="border border-light rounded" style="display:none">
+        <div class="row m-0 p-0">
+            <div class="col-md-2">
+                <div class="form-group mt-2">
+                    <img id="DTPictureURL" src="~/Content/Images/default-avatar-profile-icon.png" class="img-fluid mx-auto d-block" />
+                </div>
+            </div>
+            <div class="col-md-10 mt-3">
+                <div class="row m-0 p-0">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="DTCovid19TestDate1" class="form-label text-light">Covid 19 Test Date 1</label>
+                            <label id="DTCovid19TestDate1" class="form-control"> - </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="DTCovid19TestDate4" class="form-label text-light">Covid 19 Test Date 4</label>
+                            <label id="DTCovid19TestDate4" class="form-control"> - </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="DTCovid19TestDate2" class="form-label text-light">Covid 19 Test Date 2</label>
+                            <label id="DTCovid19TestDate2" class="form-control"> - </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="DTVaccineDose1Date" class="form-label text-light">Vaccine Dose 1 Date</label>
+                            <label id="DTVaccineDose1Date" class="form-control"> - </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="DTCovid19TestDate3" class="form-label text-light">Covid 19 Test Date 3</label>
+                            <label id="DTCovid19TestDate3" class="form-control"> - </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="DTVaccineDose2Date" class="form-label text-light">Vaccine Dose 2 Date</label>
+                            <label id="DTVaccineDose2Date" class="form-control"> - </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="DTClinicName" class="form-label text-light">Clinic Name</label>
+                            <label id="DTClinicName" class="form-control"> - </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="DTClinicLocation" class="form-label text-light">Clinic Location</label>
+                            <label id="DTClinicLocation" class="form-control"> - </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    @*<script src="~/Scripts/jquery-3.4.1.js"></script>*@
+    <script src="~/Scripts/jsGrid/jsgrid.min.js"></script>
+    <script src="~/Scripts/jsGrid/db.js"></script>
+    <script src="~/Scripts/jsGrid/jsgrid.load-indicator.js"></script>
+    <script src="~/Scripts/jsGrid/jsgrid.load-strategies.js"></script>
+    <script src="~/Scripts/jsGrid/jsgrid.field.js"></script>
+    <script src="~/Scripts/jsGrid/jsgrid.field.text.js"></script>
+    <script src="~/Scripts/jsGrid/jsgrid.field.number.js"></script>
+    <script src="~/Scripts/jsGrid/jsgrid.field.select.js"></script>
+    <script src="~/Scripts/jsGrid/jsgrid.field.checkbox.js"></script>
+    <script src="~/Scripts/jsGrid/jsgrid.field.control.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @*<script src="~/Scripts/jquery-ui.js"></script>*@
+    @*<script src="~/Scripts/jquery-1.12.1.min.js"></script>*@
+
+
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/Candidate/Candidate.js"></script>
+    <script src="~/Scripts/WebCam/webcam.js"></script> @* For capture image using webcam*@
+    <footer>
+        <div id="welcome-div" class="container my-4 custom-hide">
+            <div class="alert alert-success" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Success!</strong> Welcome to Secure Biometrics !
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
