@@ -81,7 +81,6 @@ namespace FomemaMedicalCard.Controllers
             {
                 FomemaTestResult = Request.Form["FomemaTestResult"];
             }
-
             int pageIndex = 0;
             if (Request.Form.AllKeys.Contains("pageIndex"))
             {
