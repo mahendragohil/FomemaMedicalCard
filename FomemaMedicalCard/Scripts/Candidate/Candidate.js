@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿var isUserFirstTimeLoad = true;
+
+$(document).ready(function () {
+
     $('#welcome-div').removeClass("custom-hide");
 
     window.setInterval(function () {
@@ -106,7 +109,10 @@
                                     data: res,
                                     itemsCount: 0
                                 });
-                            alert('No candidate records match');
+                            if (!isUserFirstTimeLoad) {
+                                alert('No candidate records match.');
+                            }
+                            isUserFirstTimeLoad = false;
                         }
                     });
                     return result.promise();
@@ -243,7 +249,6 @@
         else {
             $("#DTPictureURL").attr("src", "/Content/Images/default-avatar-profile-icon.png");
         }
-        
         $("#DTCovid19TestDate1").text((candidate.Covid19TestDate1 == null) ? "" : candidate.Covid19TestDate1);
         $("#DTCovid19TestDate2").text((candidate.Covid19TestDate2 == null) ? "" : candidate.Covid19TestDate2);
         $("#DTCovid19TestDate3").text((candidate.Covid19TestDate3 == null) ? "" : candidate.Covid19TestDate3);
