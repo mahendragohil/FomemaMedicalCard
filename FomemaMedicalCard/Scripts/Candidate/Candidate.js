@@ -390,9 +390,21 @@ function startCamera() {
     });
 }
 function getDataFromJsGrid() {
+    
     var formData = new FormData($('#detailsForm')[0]);
+    formData.set('DateofBirth', formatDate(formData.get('DateofBirth')));
+    formData.set('Covid19TestDate1', formatDate(formData.get('Covid19TestDate1')));
+    formData.set('Covid19TestDate2', formatDate(formData.get('Covid19TestDate2')));
+    formData.set('Covid19TestDate3', formatDate(formData.get('Covid19TestDate3')));
+    formData.set('Covid19TestDate4', formatDate(formData.get('Covid19TestDate4')));
+    formData.set('VaccineDose1Date', formatDate(formData.get('VaccineDose1Date')));
+    formData.set('VaccineDose2Date', formatDate(formData.get('VaccineDose2Date')));
     formData.append('PictureFromComputer', $('input[type=file]')[0].files[0]);
     formData.append('PictureURL', $('#PictureURL').attr("src"));
     candidate = formData;
     return formData;
+}
+
+function formatDate(date) {
+    return date.split("-").reverse().join("-");    
 }

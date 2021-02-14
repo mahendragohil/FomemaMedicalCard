@@ -135,9 +135,20 @@ namespace FomemaMedicalCard.Controllers
             if (cadidateId > 0)
             {
                 candidateModel.CandidateId = cadidateId;
+                candidateModel.DateofBirth = GetFormatedDate(candidateModel.DateofBirth);
+                candidateModel.Covid19TestDate1 = GetFormatedDate(candidateModel.Covid19TestDate1);
+                candidateModel.Covid19TestDate2 = GetFormatedDate(candidateModel.Covid19TestDate2);
+                candidateModel.Covid19TestDate3 = GetFormatedDate(candidateModel.Covid19TestDate3);
+                candidateModel.Covid19TestDate4 = GetFormatedDate(candidateModel.Covid19TestDate4);
+                candidateModel.VaccineDose1Date = GetFormatedDate(candidateModel.VaccineDose1Date);
+                candidateModel.VaccineDose2Date = GetFormatedDate(candidateModel.VaccineDose2Date);
                 return Json(candidateModel, JsonRequestBehavior.AllowGet);
             }
             return Json(cadidateId, JsonRequestBehavior.AllowGet);
+        }
+        string GetFormatedDate(string dateinyyyyformat)
+        {
+            return !string.IsNullOrEmpty(dateinyyyyformat) ? Convert.ToDateTime(dateinyyyyformat).ToString("dd-MM-yyyy") : null;
         }
         [HttpPost]
         public ActionResult DeleteCandidate(CandidateModel candidateModel)

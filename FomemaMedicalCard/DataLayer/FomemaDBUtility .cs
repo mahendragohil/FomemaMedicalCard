@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using FomemaMedicalCard.Models;
+using System.Globalization;
 
 namespace FomemaMedicalCard.DataLayer
 {
@@ -286,12 +287,12 @@ namespace FomemaMedicalCard.DataLayer
                     }
                     if (dt.Rows[i]["VaccineDose1Date"] != DBNull.Value)
                     {
-                        DateTime VaccineDose1Date = Convert.ToDateTime(dt.Rows[i]["Covid19TestDate1"]);
+                        DateTime VaccineDose1Date = Convert.ToDateTime(dt.Rows[i]["VaccineDose1Date"]);
                         StrVaccineDose1Date = VaccineDose1Date.ToString("dd-MM-yyyy");
                     }
                     if (dt.Rows[i]["VaccineDose2Date"] != DBNull.Value)
                     {
-                        DateTime VaccineDose2Date = Convert.ToDateTime(dt.Rows[i]["Covid19TestDate1"]);
+                        DateTime VaccineDose2Date = Convert.ToDateTime(dt.Rows[i]["VaccineDose2Date"]);
                         StrVaccineDose2Date = VaccineDose2Date.ToString("dd-MM-yyyy");
                     }
 
@@ -393,12 +394,14 @@ namespace FomemaMedicalCard.DataLayer
                     cmd.Parameters.AddWithValue("@VaccineDose1Date", GetFormattedDateTime(candidateModel.VaccineDose1Date));
                     cmd.Parameters.AddWithValue("@VaccineDose2Date", GetFormattedDateTime(candidateModel.VaccineDose2Date));
                     cmd.Parameters.AddWithValue("@ClinicName", candidateModel.ClinicName);
-                    cmd.Parameters.AddWithValue("@ClinicLocation", candidateModel.ClinicLocation);
+                    cmd.Parameters.AddWithValue("@ClinicLocation", candidateModel.ClinicLocation);  
                 }
 
+                cmd.Parameters.AddWithValue("@UpdateCandidateId", 0).Direction = ParameterDirection.Output; // output variable
+
                 conn.Open();
-                //var test = cmd.ExecuteScalar();
-                result = Convert.ToInt32(cmd.ExecuteScalar());
+                cmd.ExecuteNonQuery();
+                result = Convert.ToInt32(cmd.Parameters["@UpdateCandidateId"].Value);
                 conn.Close();
             }
             catch (Exception ex)
