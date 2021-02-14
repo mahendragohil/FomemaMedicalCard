@@ -69,6 +69,25 @@ $(document).ready(function () {
             },
             rowClick: function (args) {
                 showDetailsToUser(args.item);
+                $('#candidateGrid > .jsgrid-grid-body').find('tr').removeClass('highlight');
+                $('#candidateGrid > .jsgrid-grid-body').find('tr').each(function () {
+                    if ($(this).data("JSGridItem") != undefined && $(this).data("JSGridItem").CandidateId != undefined && $(this).data("JSGridItem").CandidateId == $("#DTcandidateId").val()) {
+                        $(this).addClass("highlight");
+                    }
+                });
+            },
+            onRefreshed: function (args) {
+                $('#candidateGrid > .jsgrid-grid-body').find('tr').removeClass('highlight');
+                $('#candidateGrid > .jsgrid-grid-body').find('tr').each(function () {
+                    if ($(this).data("JSGridItem") != undefined && $(this).data("JSGridItem").CandidateId != undefined && $(this).data("JSGridItem").CandidateId == $("#DTcandidateId").val()) {
+                        $(this).addClass("highlight");
+                    }
+                });
+            },
+            onItemUpdated: function (args) {
+                if ($("#DTcandidateId").val() == args.item.CandidateId) {
+                    $("#DTPictureURL").attr("src", args.item.PictureURL + '?date=' + (new Date()).getTime());
+                }
             },
             //data: JSON.parse(data),
             controller: {
@@ -144,6 +163,10 @@ $(document).ready(function () {
                 deleteItem: function (item) {
                     //var deleteData = getDataFromJsGrid();
                     // actuall data send to server
+                    if ($("#DTcandidateId").val() == item.CandidateId) {
+                        showDetailsToUser(null);
+                    }
+                    isUserFirstTimeLoad = true;
                     return $.ajax({
                         type: "POST",
                         url: "/Candidate/DeleteCandidate/",
@@ -243,20 +266,36 @@ $(document).ready(function () {
     var formSubmitHandler = $.noop;
 
     function showDetailsToUser(candidate) {
-        if (candidate.PictureURL && typeof (candidate.PictureURL) !== "undefined") {
-            $("#DTPictureURL").attr("src", candidate.PictureURL);
+        if (candidate != null) {
+            if (candidate.PictureURL && typeof (candidate.PictureURL) !== "undefined") {
+                $("#DTPictureURL").attr("src", candidate.PictureURL + '?date=' + (new Date()).getTime());
+            }
+            else {
+                $("#DTPictureURL").attr("src", "/Content/Images/default-avatar-profile-icon.png");
+            }
+
+            $("#DTcandidateId").val((candidate.CandidateId == null) ? "" : candidate.CandidateId);
+            $("#DTCovid19TestDate1").text((candidate.Covid19TestDate1 == null) ? "" : candidate.Covid19TestDate1);
+            $("#DTCovid19TestDate2").text((candidate.Covid19TestDate2 == null) ? "" : candidate.Covid19TestDate2);
+            $("#DTCovid19TestDate3").text((candidate.Covid19TestDate3 == null) ? "" : candidate.Covid19TestDate3);
+            $("#DTCovid19TestDate4").text((candidate.Covid19TestDate4 == null) ? "" : candidate.Covid19TestDate4);
+            $("#DTClinicName").text(candidate.ClinicName);
+            $("#DTClinicLocation").text(candidate.ClinicLocation);
+            $("#DTVaccineDose1Date").text((candidate.VaccineDose1Date == null) ? "" : candidate.VaccineDose1Date);
+            $("#DTVaccineDose2Date").text((candidate.VaccineDose2Date == null) ? "" : candidate.VaccineDose2Date);
         }
         else {
             $("#DTPictureURL").attr("src", "/Content/Images/default-avatar-profile-icon.png");
+            $("#DTcandidateId").val("");
+            $("#DTCovid19TestDate1").text("-");
+            $("#DTCovid19TestDate2").text("-");
+            $("#DTCovid19TestDate3").text("-");
+            $("#DTCovid19TestDate4").text("-");
+            $("#DTClinicName").text("-");
+            $("#DTClinicLocation").text("-");
+            $("#DTVaccineDose1Date").text("-");
+            $("#DTVaccineDose2Date").text("-");
         }
-        $("#DTCovid19TestDate1").text((candidate.Covid19TestDate1 == null) ? "" : candidate.Covid19TestDate1);
-        $("#DTCovid19TestDate2").text((candidate.Covid19TestDate2 == null) ? "" : candidate.Covid19TestDate2);
-        $("#DTCovid19TestDate3").text((candidate.Covid19TestDate3 == null) ? "" : candidate.Covid19TestDate3);
-        $("#DTCovid19TestDate4").text((candidate.Covid19TestDate4 == null) ? "" : candidate.Covid19TestDate4);
-        $("#DTClinicName").text(candidate.ClinicName);
-        $("#DTClinicLocation").text(candidate.ClinicLocation);
-        $("#DTVaccineDose1Date").text((candidate.VaccineDose1Date == null) ? "" : candidate.VaccineDose1Date);
-        $("#DTVaccineDose2Date").text((candidate.VaccineDose2Date == null) ? "" : candidate.VaccineDose2Date);
     };
 
     function showDetailsDialog(dialogType, candidate) {
@@ -271,7 +310,7 @@ $(document).ready(function () {
         $("#CountryName").val(candidate.CountryName);
         if (candidate.PictureURL && typeof (candidate.PictureURL) != "undefined") {
             document.getElementById('snapShot').innerHTML =
-                '<img id="PictureURL" src="' + candidate.PictureURL + '"  class="img-fluid mx-auto d-block" />';
+                '<img id="PictureURL" src="' + candidate.PictureURL + '?date=' + (new Date()).getTime() + '"  class="img-fluid mx-auto d-block" />';
         } else {
             document.getElementById('snapShot').innerHTML = "";
         }

@@ -117,9 +117,9 @@ namespace FomemaMedicalCard.Controllers
             CandidateModel candidateModel = FomemaDBUtility.GetCandidateMedicalCardDetails(id);
             return View(candidateModel);
         }
+
         [HttpPost]
         public ActionResult SaveCandidateDetails(CandidateModel candidateModel)
-
         {
             int cadidateId = 0;
             //candidateModel.CandidateId = 30;
@@ -130,6 +130,7 @@ namespace FomemaMedicalCard.Controllers
                 candidateModel.CandidateGuid = Guid.NewGuid();
             }
             candidateModel.PictureURL = SaveAndGetImageUrl(candidateModel.CandidateGuid, candidateModel.PictureURL, candidateModel.PictureFromComputer);
+            candidateModel.PictureFromComputer = null;
             cadidateId = FomemaDBUtility.IUDCandidateDetails(candidateModel, candidateModel.CandidateId > 0 ? DataOperationMode.Update : DataOperationMode.Insert);
             if (cadidateId > 0)
             {
