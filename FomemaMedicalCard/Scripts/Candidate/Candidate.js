@@ -19,6 +19,8 @@ $(document).ready(function () {
     $('.datepicker').each(function () {
         $("#" + $(this).attr("Id")).datepicker({
             dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
             autoclose: true,
             maxDate: 0 // so 0 represents today. disable future date.
         });
