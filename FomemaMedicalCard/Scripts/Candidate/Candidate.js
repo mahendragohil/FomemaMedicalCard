@@ -87,6 +87,12 @@ $(document).ready(function () {
             onItemUpdated: function (args) {
                 if ($("#DTcandidateId").val() == args.item.CandidateId) {
                     $("#DTPictureURL").attr("src", args.item.PictureURL + '?date=' + (new Date()).getTime());
+                    $('#candidateGrid > .jsgrid-grid-body').find('tr').removeClass('highlight');
+                    $('#candidateGrid > .jsgrid-grid-body').find('tr').each(function () {
+                        if ($(this).data("JSGridItem") != undefined && $(this).data("JSGridItem").CandidateId != undefined && $(this).data("JSGridItem").CandidateId == $("#DTcandidateId").val()) {
+                            $(this).addClass("highlight");
+                        }
+                    });
                 }
             },
             //data: JSON.parse(data),
@@ -305,6 +311,7 @@ $(document).ready(function () {
         else {
             $("#save").text("Save");
         }
+        $("#filePictureFromComputer").val('');
         $("#CandidateId").val(candidate.CandidateId);
         $("#CandidateGuid").val(candidate.CandidateGuid);
         $("#CountryName").val(candidate.CountryName);
@@ -390,7 +397,7 @@ function startCamera() {
     });
 }
 function getDataFromJsGrid() {
-    
+
     var formData = new FormData($('#detailsForm')[0]);
     formData.set('DateofBirth', formatDate(formData.get('DateofBirth')));
     formData.set('Covid19TestDate1', formatDate(formData.get('Covid19TestDate1')));
@@ -406,5 +413,5 @@ function getDataFromJsGrid() {
 }
 
 function formatDate(date) {
-    return date.split("-").reverse().join("-");    
+    return date.split("-").reverse().join("-");
 }
