@@ -36,6 +36,7 @@ $(document).ready(function () {
             changeMonth: true,
             changeYear: true,
             autoclose: true,
+            yearRange: '1901:2050',
             maxDate: 0 // so 0 represents today. disable future date.
         });
     });
@@ -324,7 +325,7 @@ $(document).ready(function () {
     function showDetailsDialog(dialogType, candidate) {
         if (dialogType == 'Edit') {
             $("#save").text("Update");
-            $("#CandidateCardNumber").attr("disabled", "disabled")
+            $("#CandidateCardNumber").attr("readonly", "readonly")
         }
         else {
             $("#save").text("Save");
@@ -368,13 +369,45 @@ $(document).ready(function () {
 
     function saveCandidate(candidate, isNew) {
 
-        if (!validateCardNumber(isNew)) {
-            return;
+        if (isNew) {
+            if ($("#CandidateCardNumber").val() == null || $("#CandidateCardNumber").val() == "") {
+                alert('Please enter card number');
+                $("#CandidateCardNumber").focus();
+                return;
+            }
+            var data =
+            {
+                cardnumber: $("#CandidateCardNumber").val(),
+                isNew: isNew
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Candidate/ValidateCardNumber",
+                data: data,
+                cache: false,
+                success: function (result) {
+                    if (result != undefined) {
+                        if (!result.Result) {
+                            alert(result.Message);
+                            $("#CandidateCardNumber").focus();
+                        }
+                        else {
+                            $("#candidateGrid").jsGrid("insertItem", candidate);
+                            $("#detailsDialog").dialog("close");
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Please enter valid card number');
+                    $("#CandidateCardNumber").focus();
+                }
+            });
         }
-
-        $("#candidateGrid").jsGrid(isNew ? "insertItem" : "updateItem", candidate);
-
-        $("#detailsDialog").dialog("close");
+        else {
+            $("#candidateGrid").jsGrid("updateItem", candidate);
+            $("#detailsDialog").dialog("close");
+        }
     };
 
     $('#chkIsFilter').change(function () {
@@ -389,43 +422,6 @@ $(document).ready(function () {
         $('#candidateLoading').hide();
     }, 4000);
 });
-
-function validateCardNumber(isNew) {
-    if ($("#CandidateCardNumber").val() == null || $("#CandidateCardNumber").val() == "") {
-        alert('Please enter card number');
-        $("#CandidateCardNumber").focus();
-        return false;
-    }
-
-    var data =
-    {
-        cardnumber: $("#CandidateCardNumber").val(),
-        isNew: isNew
-    }
-
-    $.ajax({
-        type: "POST",
-        url: "/Candidate/ValidateCardNumber",
-        data: data,
-        cache: false,
-        async: false,
-        success: function (result) {
-            if (result != undefined) {
-                if (!result.Result) {
-                    alert(result.Message);
-                    $("#CandidateCardNumber").focus();
-                }
-                return result.Result;
-            }
-        },
-        error: function (xhr, status, error) {
-            alert('Please enter valid card number');
-            $("#CandidateCardNumber").focus();
-            return false;
-        }
-    });
-}
-
 
 $("#takePicture").click(function () {
     takePicture();
