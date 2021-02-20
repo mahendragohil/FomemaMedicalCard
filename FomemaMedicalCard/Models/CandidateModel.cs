@@ -9,6 +9,9 @@ namespace FomemaMedicalCard.Models
     {
         public int CandidateId { get; set; }
         public Guid CandidateGuid { get; set; }
+        public string CandidateCardNumber { get; set; }
+        public string CandidateCardNumberEncrypted { get; set; }
+
 
         public string Name { get; set; }
         public string DateofBirth { get; set; }

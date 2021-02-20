@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FomemaMedicalCard.CommonClass;
 using FomemaMedicalCard.DataLayer;
 using FomemaMedicalCard.Models;
 using Newtonsoft.Json;
@@ -14,6 +16,7 @@ namespace FomemaMedicalCard.Controllers
     public class CandidateController : Controller
     {
         // GET: Candidate
+        [RequireHttps]
         public ActionResult Index()
         {
             return View();
@@ -46,6 +49,11 @@ namespace FomemaMedicalCard.Controllers
                 SearchPassportNo = Request.Form["SearchPassportNo"];
             }
 
+            string CandidateCardNumber = "";
+            if (Request.Form.AllKeys.Contains("CandidateCardNumber"))
+            {
+                CandidateCardNumber = Request.Form["CandidateCardNumber"];
+            }
             string Name = "";
             if (Request.Form.AllKeys.Contains("Name"))
             {
@@ -102,7 +110,7 @@ namespace FomemaMedicalCard.Controllers
                 SortOrder = Request.Form["sortOrder"];
             }
 
-            Tuple<List<CandidateModel>, int> candidateModel = FomemaDBUtility.GetAllCandidateForGrid(pageIndex, pageSize, SortField, SortOrder, Name, Age, NewPassportNo, OldPassportNo, CountryName, FomemaTestYear, FomemaTestResult, UserType, SearchPassportNo);
+            Tuple<List<CandidateModel>, int> candidateModel = FomemaDBUtility.GetAllCandidateForGrid(pageIndex, pageSize, SortField, SortOrder, CandidateCardNumber, Name, Age, NewPassportNo, OldPassportNo, CountryName, FomemaTestYear, FomemaTestResult, UserType, SearchPassportNo);
             var json = JsonConvert.SerializeObject(candidateModel);
 
             return Json(json, JsonRequestBehavior.AllowGet);
@@ -112,7 +120,7 @@ namespace FomemaMedicalCard.Controllers
         /// </summary>
         /// <param name="id">GUID of candidate</param>
         /// <returns></returns>
-        public ActionResult CandidateMedicalCard(Guid id)
+        public ActionResult CandidateMedicalCard(string id)
         {
             CandidateModel candidateModel = FomemaDBUtility.GetCandidateMedicalCardDetails(id);
             return View(candidateModel);
@@ -129,6 +137,11 @@ namespace FomemaMedicalCard.Controllers
             {
                 candidateModel.CandidateGuid = Guid.NewGuid();
             }
+            if (!string.IsNullOrEmpty(candidateModel.CandidateCardNumber))
+            {
+                candidateModel.CandidateCardNumberEncrypted = Encrypt.EncryptString(candidateModel.CandidateCardNumber);
+            }
+
             candidateModel.PictureURL = SaveAndGetImageUrl(candidateModel.CandidateGuid, candidateModel.PictureURL, candidateModel.PictureFromComputer);
             candidateModel.PictureFromComputer = null;
             cadidateId = FomemaDBUtility.IUDCandidateDetails(candidateModel, candidateModel.CandidateId > 0 ? DataOperationMode.Update : DataOperationMode.Insert);
@@ -150,6 +163,43 @@ namespace FomemaMedicalCard.Controllers
         {
             return !string.IsNullOrEmpty(dateinyyyyformat) ? Convert.ToDateTime(dateinyyyyformat).ToString("dd-MM-yyyy") : null;
         }
+
+        public JsonResult ValidateCardNumber(FormCollection form)
+        {
+            try
+            {
+                bool result = true;
+                string message = string.Empty;
+                string cardNumber = form["cardnumber"];
+                bool isNew = Convert.ToBoolean(form["isNew"]);
+
+                DataTable dtCard = FomemaDBUtility.GetCardListRecord(cardNumber);
+                if (dtCard.Rows.Count <= 0)
+                {
+                    result = false;
+                    message = "This card number not created.";
+                }
+
+                if (isNew)
+                {
+                    DataTable dtCardMaster = FomemaDBUtility.GetCardMasterRecord(cardNumber);
+                    if (dtCardMaster.Rows.Count > 0)
+                    {
+                        result = false;
+                        message = "This card is already used for another candidate.";
+                    }
+                }
+
+
+
+                return Json(new { Result = result, Message = message }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception exObj)
+            {
+                throw exObj;
+            }
+        }
+
         [HttpPost]
         public ActionResult DeleteCandidate(CandidateModel candidateModel)
         {

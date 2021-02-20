@@ -33,13 +33,13 @@ namespace FomemaMedicalCard.DataLayer
 
         }
 
-        public static CandidateModel GetCandidateMedicalCardDetails(Guid CandidateGuid)
+        public static CandidateModel GetCandidateMedicalCardDetails(string CandidateCardNumber)
         {
             SqlConnection conn = new SqlConnection(connStr);
 
             SqlCommand cmd = new SqlCommand("CandidateMedicalCardGetData", conn);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CandidateGuid", CandidateGuid);
+            cmd.Parameters.AddWithValue("@CandidateCardNumber", CandidateCardNumber);
             conn.Open();
 
             DataTable dt = new DataTable();
@@ -91,6 +91,9 @@ namespace FomemaMedicalCard.DataLayer
                 candidateModel.PictureURL = dt.Rows[0]["PictureURL"].ToString();
                 candidateModel.Name = dt.Rows[0]["Name"].ToString();
                 candidateModel.Age = Convert.ToInt32(dt.Rows[0]["Age"].ToString());
+                string CardNumber = Convert.ToString(dt.Rows[0]["CandidateCardNumber"].ToString());
+                candidateModel.CandidateCardNumber = string.Format("{0}-{1}-{2}", CardNumber.Substring(0, 3),
+                          CardNumber.Substring(3, 3), CardNumber.Substring(6));
                 candidateModel.NewPassportNo = dt.Rows[0]["NewPassportNo"].ToString();
                 candidateModel.OldPassportNo = dt.Rows[0]["OldPassportNo"].ToString();
                 candidateModel.CountryName = dt.Rows[0]["CountryName"].ToString();
@@ -106,6 +109,38 @@ namespace FomemaMedicalCard.DataLayer
 
             return candidateModel;
 
+        }
+
+        public static DataTable GetCardListRecord(string CandidateCardNumber)
+        {
+            SqlConnection conn = new SqlConnection(connStr);
+
+            SqlCommand cmd = new SqlCommand("sp_GetCardListRecord", conn);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CardNumber", CandidateCardNumber);
+            conn.Open();
+
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+            conn.Close();
+
+            return dt;
+        }
+
+        public static DataTable GetCardMasterRecord(string CandidateCardNumber)
+        {
+            SqlConnection conn = new SqlConnection(connStr);
+
+            SqlCommand cmd = new SqlCommand("sp_GetCardMasterRecord", conn);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CardNumber", CandidateCardNumber);
+            conn.Open();
+
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+            conn.Close();
+
+            return dt;
         }
 
         //public static List<CandidateModel> GetAllCandidate()
@@ -216,7 +251,7 @@ namespace FomemaMedicalCard.DataLayer
             return dt;
         }
 
-        public static Tuple<List<CandidateModel>, int> GetAllCandidateForGrid(int PageIndex, int PageSize, string SortField, string SortOrder, string Name, int Age, string NewPassportNo, string OldPassportNo,
+        public static Tuple<List<CandidateModel>, int> GetAllCandidateForGrid(int PageIndex, int PageSize, string SortField, string SortOrder, string CandidateCardNumber, string Name, int Age, string NewPassportNo, string OldPassportNo,
             string CountryName, int FomemaTestYear, string FomemaTestResult, int UserType, string SearchPassportNo)
         {
             int totalCount = 0;
@@ -228,6 +263,7 @@ namespace FomemaMedicalCard.DataLayer
             cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = PageSize;
             cmd.Parameters.Add("@SortCol", SqlDbType.NVarChar).Value = SortField;
             cmd.Parameters.Add("@SortDir", SqlDbType.NVarChar).Value = SortOrder;
+            cmd.Parameters.Add("@CandidateCardNumber", SqlDbType.VarChar).Value = CandidateCardNumber;
             cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = Name;
             cmd.Parameters.Add("@Age", SqlDbType.Int).Value = Age;
             cmd.Parameters.Add("@NewPassportNo", SqlDbType.NVarChar).Value = NewPassportNo;
@@ -300,6 +336,9 @@ namespace FomemaMedicalCard.DataLayer
 
                     CandidateModel candidateModel = new CandidateModel();
                     candidateModel.CandidateId = Convert.ToInt32(dt.Rows[i]["CandidateId"].ToString());
+                    string CardNumber = Convert.ToString(dt.Rows[i]["CandidateCardNumber"].ToString());
+                    candidateModel.CandidateCardNumber = string.Format("{0}-{1}-{2}", CardNumber.Substring(0, 3),
+                              CardNumber.Substring(3, 3), CardNumber.Substring(6));
                     candidateModel.CandidateGuid = new Guid(dt.Rows[i]["CandidateGuid"].ToString());
                     candidateModel.PictureURL = string.IsNullOrWhiteSpace(dt.Rows[i]["PictureURL"].ToString()) ? null : dt.Rows[i]["PictureURL"].ToString();
                     candidateModel.Name = dt.Rows[i]["Name"].ToString();
@@ -361,6 +400,8 @@ namespace FomemaMedicalCard.DataLayer
                 };
                 cmd.Parameters.AddWithValue("@DataOperationMode", (int)dataOperationMode);
                 cmd.Parameters.AddWithValue("@CandidateId", candidateModel.CandidateId);
+                cmd.Parameters.AddWithValue("@CandidateCardNumber", candidateModel.CandidateCardNumber);
+                cmd.Parameters.AddWithValue("@CandidateCardNumberEncrypt", candidateModel.CandidateCardNumberEncrypted);
                 if (dataOperationMode == DataOperationMode.Update || dataOperationMode == DataOperationMode.Delete)
                 {
                     cmd.Parameters.AddWithValue("@ModifiedBy", 1);
@@ -394,7 +435,7 @@ namespace FomemaMedicalCard.DataLayer
                     cmd.Parameters.AddWithValue("@VaccineDose1Date", GetFormattedDateTime(candidateModel.VaccineDose1Date));
                     cmd.Parameters.AddWithValue("@VaccineDose2Date", GetFormattedDateTime(candidateModel.VaccineDose2Date));
                     cmd.Parameters.AddWithValue("@ClinicName", candidateModel.ClinicName);
-                    cmd.Parameters.AddWithValue("@ClinicLocation", candidateModel.ClinicLocation);  
+                    cmd.Parameters.AddWithValue("@ClinicLocation", candidateModel.ClinicLocation);
                 }
 
                 cmd.Parameters.AddWithValue("@UpdateCandidateId", 0).Direction = ParameterDirection.Output; // output variable

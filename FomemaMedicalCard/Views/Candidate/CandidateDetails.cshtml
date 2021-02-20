@@ -40,6 +40,7 @@
     <style>
         #main-div {
             height: 100vh; /* vh stands for view-port height, 1vh is 1% of screen height */
+            width: 100vw; /* vw stands for view-port width, 1vh is 1% of screen width */
         }
 
         .ui-jqgrid .ui-jqgrid-bdiv {
@@ -161,6 +162,10 @@
         <form id="detailsForm" novalidate="novalidate">
             @Html.HiddenFor(model => model.CandidateId)
             @Html.HiddenFor(model => model.CandidateGuid)
+            <div class="details-form-field">
+                @Html.LabelFor(model => model.CandidateCardNumber, "Card Number:")
+                @Html.TextBoxFor(model => model.CandidateCardNumber)
+            </div>
             <div class="details-form-field">
                 @Html.LabelFor(model => model.Name, "Name:")
                 @Html.EditorFor(model => model.Name)
@@ -344,6 +349,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/Scripts/Candidate/Candidate.js"></script>
     <script src="~/Scripts/WebCam/webcam.js"></script> @* For capture image using webcam*@
+    <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
     <footer>
         <div id="welcome-div" class="container my-4 custom-hide">
             <div class="alert alert-success" role="alert">

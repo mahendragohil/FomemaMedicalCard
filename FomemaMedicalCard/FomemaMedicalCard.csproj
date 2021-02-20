@@ -120,6 +120,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="CommonClass\Encrypt.cs" />
+    <Compile Include="Controllers\BookCardNumberController.cs" />
     <Compile Include="Controllers\CandidateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BookCardNumber.cs" />
     <Compile Include="Models\CandidateModel.cs" />
     <Compile Include="Models\ClinicRegistrationModel.cs" />
     <Compile Include="Models\CommonEnums.cs" />
@@ -238,6 +241,7 @@
     <Content Include="Views\Candidate\CandidateDetails.cshtml" />
     <Content Include="Views\Candidate\CandidateMedicalCard.cshtml" />
     <Content Include="Views\Candidate\TestView.cshtml" />
+    <Content Include="Views\BookCardNumber\BookCardNumberListDownload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

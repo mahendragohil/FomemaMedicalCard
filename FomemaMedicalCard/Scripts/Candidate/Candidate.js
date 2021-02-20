@@ -4,6 +4,20 @@ $(document).ready(function () {
 
     $('#welcome-div').removeClass("custom-hide");
 
+    $("#CandidateCardNumber").inputmask({
+        mask: '999-999-999',
+        placeholder: '___-___-___',
+        showMaskOnHover: true,
+        showMaskOnFocus: true,
+        removeMaskOnSubmit: true,
+        clearIncomplete: true,
+        onBeforePaste: function (pastedValue, opts) {
+            var processedValue = pastedValue;
+
+            return processedValue;
+        }
+    });
+
     window.setInterval(function () {
         $('#welcome-div').addClass("custom-hide");
     }, 3000);
@@ -184,6 +198,7 @@ $(document).ready(function () {
                 },
             },
             fields: [
+                { name: "CandidateCardNumber", title: "Card No.", type: "text", width: 120 },
                 { name: "Name", title: "Name", type: "text", width: 300 },
                 { name: "DateofBirth", title: "Date of Birth", type: "date", width: 120 },
                 { name: "Age", title: "Age", type: "number", width: 60 },
@@ -309,12 +324,15 @@ $(document).ready(function () {
     function showDetailsDialog(dialogType, candidate) {
         if (dialogType == 'Edit') {
             $("#save").text("Update");
+            $("#CandidateCardNumber").attr("disabled", "disabled")
         }
         else {
             $("#save").text("Save");
+            $("#CandidateCardNumber").removeAttr("disabled")
         }
         $("#filePictureFromComputer").val('');
         $("#CandidateId").val(candidate.CandidateId);
+        $("#CandidateCardNumber").val(candidate.CandidateCardNumber);
         $("#CandidateGuid").val(candidate.CandidateGuid);
         $("#CountryName").val(candidate.CountryName);
         if (candidate.PictureURL && typeof (candidate.PictureURL) != "undefined") {
@@ -349,14 +367,10 @@ $(document).ready(function () {
     };
 
     function saveCandidate(candidate, isNew) {
-        //$.extend(client, {
-        //    Name: $("#name").val(),
-        //    DateofBirth: $("#dateofbirth").val(),
-        //    Age: parseInt($("#age").val(), 10),
-        //    Address: $("#address").val(),
-        //    Country: parseInt($("#country").val(), 10),
-        //    Married: $("#married").is(":checked")
-        //});
+
+        if (!validateCardNumber(isNew)) {
+            return;
+        }
 
         $("#candidateGrid").jsGrid(isNew ? "insertItem" : "updateItem", candidate);
 
@@ -375,6 +389,44 @@ $(document).ready(function () {
         $('#candidateLoading').hide();
     }, 4000);
 });
+
+function validateCardNumber(isNew) {
+    if ($("#CandidateCardNumber").val() == null || $("#CandidateCardNumber").val() == "") {
+        alert('Please enter card number');
+        $("#CandidateCardNumber").focus();
+        return false;
+    }
+
+    var data =
+    {
+        cardnumber: $("#CandidateCardNumber").val(),
+        isNew: isNew
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/Candidate/ValidateCardNumber",
+        data: data,
+        cache: false,
+        async: false,
+        success: function (result) {
+            if (result != undefined) {
+                if (!result.Result) {
+                    alert(result.Message);
+                    $("#CandidateCardNumber").focus();
+                }
+                return result.Result;
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('Please enter valid card number');
+            $("#CandidateCardNumber").focus();
+            return false;
+        }
+    });
+}
+
+
 $("#takePicture").click(function () {
     takePicture();
 });

@@ -31,7 +31,8 @@
 
     <style>
         #main-div {
-            height: 100%; /* vh stands for view-port height, 1vh is 1% of screen height */
+            height: 100vh; /* vh stands for view-port height, 1vh is 1% of screen height */
+            width: 100vw; /* vw stands for view-port width, 1vh is 1% of screen width */
         }
     </style>
 
@@ -47,12 +48,13 @@
                 <h2>Fomema Medical Card</h2>
             </div>
             <div class="photo">
-                <img src= '@Model.PictureURL' style="border-radius: 50%; width: 100px; height:80px;" />
+                <img src='@Model.PictureURL' style="border-radius: 50%; width: 100px; height:80px;" />
             </div>
             @if (Model != null)
             {
                 <h2 style="margin-bottom:15px;"><span id="span_name">@Model.Name</span></h2>
                 <p><span><b>Candidate Age: </b></span><span id="span_age">@Model.Age</span></p>
+                <p><span><b>Card Number: </b></span><span id="span_CardNumber">@Model.CandidateCardNumber</span></p>
                 <p><span><b>New Passport No: </b></span><span id="span_newPassportNo">@Model.NewPassportNo</span></p>
                 <p><span><b>Old Passport No: </b></span><span id="span_oldPassportNo">@Model.OldPassportNo</span></p>
                 <p><span><b>Country Name: </b></span><span id="span_CountryName">@Model.CountryName</span></p>
@@ -63,7 +65,7 @@
                 <p><span><b>Clinic Name: </b></span><span id="span_clinic_name">@Model.ClinicName</span></p>
                 <p><span><b>Clinic Location: </b></span><span id="span_clinic_location">@Model.ClinicLocation</span></p>
                 <p><span><b>1<sup>st </sup>Vaccine Dose Date: </b></span><span id="span_Vaccine_1">@Model.VaccineDose1Date</span></p>
-                <p><span><b>2<sup>nd </sup>Vaccine Dose Date: </b></span><span id="span_Vaccine_1">@Model.VaccineDose2Date</span></p>                
+                <p><span><b>2<sup>nd </sup>Vaccine Dose Date: </b></span><span id="span_Vaccine_1">@Model.VaccineDose2Date</span></p>
             }
         </div>
     </div>
