@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FomemaMedicalCard", "FomemaMedicalCard\FomemaMedicalCard.csproj", "{84193035-2D8B-459F-86EC-5A8A7E91C0BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptStringTest", "..\encrypt-string\EncryptStringTest\EncryptStringTest.csproj", "{AA2BD465-C71D-486E-84EA-79AC98C767DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptStringTest", "EncryptStringTest\EncryptStringTest.csproj", "{AA2BD465-C71D-486E-84EA-79AC98C767DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
