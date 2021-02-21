@@ -181,7 +181,7 @@ namespace FomemaMedicalCard.Controllers
                 if (dtCard.Rows.Count <= 0)
                 {
                     result = false;
-                    message = "This card number not created.";
+                    message = "This card number is invalid.";
                 }
 
                 if (isNew)
@@ -235,6 +235,10 @@ namespace FomemaMedicalCard.Controllers
                 uploadImagePath = Path.Combine(uploadImagePath, fileName);
                 // using camera uploaded image save in location.
                 SaveBase64Picture(capturedImageBase64, uploadImagePath);
+            }
+            else if (!string.IsNullOrWhiteSpace(capturedImageBase64) && !capturedImageBase64.Contains("undefined"))
+            {
+                dbFileSavePath = capturedImageBase64;
             }
             else
             {

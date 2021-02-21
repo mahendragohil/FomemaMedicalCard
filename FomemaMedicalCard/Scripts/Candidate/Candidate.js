@@ -103,7 +103,13 @@ $(document).ready(function () {
             },
             onItemUpdated: function (args) {
                 if ($("#DTcandidateId").val() == args.item.CandidateId) {
-                    $("#DTPictureURL").attr("src", args.item.PictureURL + '?date=' + (new Date()).getTime());
+                    if (args.item.PictureURL == null) {
+                        $("#DTPictureURL").attr("src", "/Content/Images/default-avatar-profile-icon.png?date=" + (new Date()).getTime());
+                    }
+                    else {
+                        $("#DTPictureURL").attr("src", args.item.PictureURL + '?date=' + (new Date()).getTime());
+                    }
+                    showDetailsToUser(args.item);
                     $('#candidateGrid > .jsgrid-grid-body').find('tr').removeClass('highlight');
                     $('#candidateGrid > .jsgrid-grid-body').find('tr').each(function () {
                         if ($(this).data("JSGridItem") != undefined && $(this).data("JSGridItem").CandidateId != undefined && $(this).data("JSGridItem").CandidateId == $("#DTcandidateId").val()) {
