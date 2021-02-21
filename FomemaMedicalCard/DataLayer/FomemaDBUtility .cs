@@ -400,8 +400,6 @@ namespace FomemaMedicalCard.DataLayer
                 };
                 cmd.Parameters.AddWithValue("@DataOperationMode", (int)dataOperationMode);
                 cmd.Parameters.AddWithValue("@CandidateId", candidateModel.CandidateId);
-                cmd.Parameters.AddWithValue("@CandidateCardNumber", candidateModel.CandidateCardNumber);
-                cmd.Parameters.AddWithValue("@CandidateCardNumberEncrypt", candidateModel.CandidateCardNumberEncrypted);
                 if (dataOperationMode == DataOperationMode.Update || dataOperationMode == DataOperationMode.Delete)
                 {
                     cmd.Parameters.AddWithValue("@ModifiedBy", 1);
@@ -414,6 +412,8 @@ namespace FomemaMedicalCard.DataLayer
                 }
                 if (dataOperationMode != DataOperationMode.Delete)
                 {
+                    cmd.Parameters.AddWithValue("@CandidateCardNumber", candidateModel.CandidateCardNumber);
+                    cmd.Parameters.AddWithValue("@CandidateCardNumberEncrypt", candidateModel.CandidateCardNumberEncrypted);
                     cmd.Parameters.AddWithValue("@CandidateGuid", candidateModel.CandidateGuid);
                     cmd.Parameters.AddWithValue("@Name", candidateModel.Name);
                     cmd.Parameters.AddWithValue("@DateofBirth", GetFormattedDateTime(candidateModel.DateofBirth));

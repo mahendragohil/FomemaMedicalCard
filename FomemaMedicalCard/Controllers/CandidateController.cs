@@ -142,12 +142,16 @@ namespace FomemaMedicalCard.Controllers
                 candidateModel.CandidateCardNumberEncrypted = Encrypt.EncryptString(candidateModel.CandidateCardNumber);
             }
 
+            candidateModel.CandidateCardNumber = candidateModel.CandidateCardNumber.Replace("-", "");
             candidateModel.PictureURL = SaveAndGetImageUrl(candidateModel.CandidateGuid, candidateModel.PictureURL, candidateModel.PictureFromComputer);
             candidateModel.PictureFromComputer = null;
             cadidateId = FomemaDBUtility.IUDCandidateDetails(candidateModel, candidateModel.CandidateId > 0 ? DataOperationMode.Update : DataOperationMode.Insert);
             if (cadidateId > 0)
             {
                 candidateModel.CandidateId = cadidateId;
+                string CardNumber = Convert.ToString(candidateModel.CandidateCardNumber);
+                candidateModel.CandidateCardNumber = string.Format("{0}-{1}-{2}", CardNumber.Substring(0, 3),
+                          CardNumber.Substring(3, 3), CardNumber.Substring(6));
                 candidateModel.DateofBirth = GetFormatedDate(candidateModel.DateofBirth);
                 candidateModel.Covid19TestDate1 = GetFormatedDate(candidateModel.Covid19TestDate1);
                 candidateModel.Covid19TestDate2 = GetFormatedDate(candidateModel.Covid19TestDate2);

@@ -329,7 +329,7 @@ $(document).ready(function () {
         }
         else {
             $("#save").text("Save");
-            $("#CandidateCardNumber").removeAttr("disabled")
+            $("#CandidateCardNumber").removeAttr("readonly")
         }
         $("#filePictureFromComputer").val('');
         $("#CandidateId").val(candidate.CandidateId);
@@ -449,6 +449,7 @@ function startCamera() {
 function getDataFromJsGrid() {
 
     var formData = new FormData($('#detailsForm')[0]);
+    formData.set('CandidateCardNumber', $("#CandidateCardNumber").val().replace(/-/gi, ""));
     formData.set('DateofBirth', formatDate(formData.get('DateofBirth')));
     formData.set('Covid19TestDate1', formatDate(formData.get('Covid19TestDate1')));
     formData.set('Covid19TestDate2', formatDate(formData.get('Covid19TestDate2')));
