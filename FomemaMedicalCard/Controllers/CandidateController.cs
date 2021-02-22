@@ -123,6 +123,10 @@ namespace FomemaMedicalCard.Controllers
         public ActionResult CandidateMedicalCard(string id)
         {
             CandidateModel candidateModel = FomemaDBUtility.GetCandidateMedicalCardDetails(id);
+            if (string.IsNullOrEmpty(candidateModel.PictureURL))
+            {
+                candidateModel.PictureURL = "/Content/Images/default-avatar-profile-icon.png";
+            }
             return View(candidateModel);
         }
 
@@ -142,6 +146,14 @@ namespace FomemaMedicalCard.Controllers
                 candidateModel.CandidateCardNumberEncrypted = Encrypt.EncryptString(candidateModel.CandidateCardNumber);
             }
 
+            candidateModel.ClinicLocation = candidateModel.ClinicLocation ?? "";
+            candidateModel.ClinicName = candidateModel.ClinicName ?? "";
+            candidateModel.CountryName = candidateModel.CountryName ?? "";
+            candidateModel.FomemaTestResult = candidateModel.FomemaTestResult ?? "";
+            candidateModel.Name = candidateModel.Name ?? "";
+            candidateModel.NewPassportNo = candidateModel.NewPassportNo ?? "";
+            candidateModel.OldPassportNo = candidateModel.OldPassportNo ?? "";
+
             candidateModel.CandidateCardNumber = candidateModel.CandidateCardNumber.Replace("-", "");
             candidateModel.PictureURL = SaveAndGetImageUrl(candidateModel.CandidateGuid, candidateModel.PictureURL, candidateModel.PictureFromComputer);
             candidateModel.PictureFromComputer = null;
@@ -152,6 +164,7 @@ namespace FomemaMedicalCard.Controllers
                 string CardNumber = Convert.ToString(candidateModel.CandidateCardNumber);
                 candidateModel.CandidateCardNumber = string.Format("{0}-{1}-{2}", CardNumber.Substring(0, 3),
                           CardNumber.Substring(3, 3), CardNumber.Substring(6));
+
                 candidateModel.DateofBirth = GetFormatedDate(candidateModel.DateofBirth);
                 candidateModel.Covid19TestDate1 = GetFormatedDate(candidateModel.Covid19TestDate1);
                 candidateModel.Covid19TestDate2 = GetFormatedDate(candidateModel.Covid19TestDate2);
