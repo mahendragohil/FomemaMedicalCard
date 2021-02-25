@@ -154,6 +154,9 @@ namespace FomemaMedicalCard.Controllers
             candidateModel.NewPassportNo = candidateModel.NewPassportNo ?? "";
             candidateModel.OldPassportNo = candidateModel.OldPassportNo ?? "";
 
+            candidateModel.Age = candidateModel.Age == 0 ? null : candidateModel.Age;
+            candidateModel.FomemaTestYear = candidateModel.FomemaTestYear == 0 ? null : candidateModel.FomemaTestYear;
+
             candidateModel.CandidateCardNumber = candidateModel.CandidateCardNumber.Replace("-", "");
             candidateModel.PictureURL = SaveAndGetImageUrl(candidateModel.CandidateGuid, candidateModel.PictureURL, candidateModel.PictureFromComputer);
             candidateModel.PictureFromComputer = null;

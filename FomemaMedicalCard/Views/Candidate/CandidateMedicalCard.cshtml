@@ -34,6 +34,23 @@
             height: 100vh; /* vh stands for view-port height, 1vh is 1% of screen height */
             width: 100vw; /* vw stands for view-port width, 1vh is 1% of screen width */
         }
+
+        @@media only screen and (max-width: 600px) {
+
+            .container-fluid {
+                padding-right: 2vw;
+                padding-left: 2vw;
+            }
+
+            .id-card-holder {
+                width: 95vw;
+                padding:0
+            }
+
+                .id-card-holder:before {
+                    left: 93.7vw;
+                }
+        }
     </style>
 
 </head>

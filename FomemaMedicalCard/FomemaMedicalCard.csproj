@@ -178,6 +178,10 @@
     <Content Include="Content\owlcarousel\assets\owl.video.play.png" />
     <Content Include="Content\owlcarousel\owl.carousel.js" />
     <Content Include="Content\owlcarousel\owl.carousel.min.js" />
+    <Content Include="Content\ScreamerAlert\screamer.jquery.css" />
+    <Content Include="Content\ScreamerAlert\screamer.jquery.min.css" />
+    <Content Include="Content\ScreamerAlert\screamer.theme.css" />
+    <Content Include="Content\ScreamerAlert\screamer.theme.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\WebCam\webcam.js" />
     <Content Include="Content\WebCam\webcam.swf" />
@@ -220,6 +224,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ScreamerAlert\screamer.jquery.js" />
+    <Content Include="Scripts\ScreamerAlert\screamer.jquery.min.js" />
     <Content Include="Scripts\WebCam\webcam.js" />
     <Content Include="Scripts\WebCam\webcam.swf" />
     <Content Include="Web.config" />

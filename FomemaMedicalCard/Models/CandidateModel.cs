@@ -15,7 +15,7 @@ namespace FomemaMedicalCard.Models
 
         public string Name { get; set; }
         public string DateofBirth { get; set; }
-        public int Age { get; set; }
+        public int? Age { get; set; }
         public string NewPassportNo { get; set; }
         public string OldPassportNo { get; set; }
         /// <summary>
@@ -26,7 +26,7 @@ namespace FomemaMedicalCard.Models
         public string CountryName { get; set; }
         public bool IsDeleted { get; set; }
         public string RedirectedPath { get; set; }
-        public int FomemaTestYear { get; set; }
+        public int? FomemaTestYear { get; set; }
         public string FomemaTestResult { get; set; }
         public int CreatedBy { get; set; }
         public string CreatedDate { get; set; }

@@ -101,6 +101,24 @@ $(document).ready(function () {
                     }
                 });
             },
+            onItemInserted: function (args) {
+                $().screamer({
+                    title: 'Secure Biomatrics',
+                    message: 'Candidate added successfully.',
+                    button: 'Ok',
+                    overlayClose: true,
+                    theme: 'screamer-green'
+                });
+            },
+            onItemDeleted: function (args) {
+                $().screamer({
+                    title: 'Secure Biomatrics',
+                    message: 'Candidate deleted successfully.',
+                    button: 'Ok',
+                    overlayClose: true,
+                    theme: 'screamer-green'
+                });
+            },
             onItemUpdated: function (args) {
                 if ($("#DTcandidateId").val() == args.item.CandidateId) {
                     if (args.item.PictureURL == null) {
@@ -117,6 +135,13 @@ $(document).ready(function () {
                         }
                     });
                 }
+                $().screamer({
+                    title: 'Secure Biomatrics',
+                    message: 'Candidate updated successfully.',
+                    button: 'Ok',
+                    overlayClose: true,
+                    theme: 'screamer-green'
+                });
             },
             //data: JSON.parse(data),
             controller: {
@@ -158,7 +183,13 @@ $(document).ready(function () {
                                     itemsCount: 0
                                 });
                             if (!isUserFirstTimeLoad) {
-                                alert('No candidate records match.');
+                                $().screamer({
+                                    title: 'Secure Biomatrics',
+                                    message: 'No candidate records match.',
+                                    button: 'Ok',
+                                    overlayClose: true,
+                                    theme: 'screamer-orange'
+                                });
                             }
                             isUserFirstTimeLoad = false;
                         }
@@ -377,7 +408,13 @@ $(document).ready(function () {
 
         if (isNew) {
             if ($("#CandidateCardNumber").val() == null || $("#CandidateCardNumber").val() == "") {
-                alert('Please enter card number');
+                $().screamer({
+                    title: 'Secure Biomatrics',
+                    message: 'Please enter card number',
+                    button: 'Ok',
+                    overlayClose: true,
+                    theme: 'screamer-orange'
+                });
                 $("#CandidateCardNumber").focus();
                 return;
             }
@@ -395,7 +432,13 @@ $(document).ready(function () {
                 success: function (result) {
                     if (result != undefined) {
                         if (!result.Result) {
-                            alert(result.Message);
+                            $().screamer({
+                                title: 'Secure Biomatrics',
+                                message: result.Message,
+                                button: 'Ok',
+                                overlayClose: true,
+                                theme: 'screamer-orange'
+                            });
                             $("#CandidateCardNumber").focus();
                         }
                         else {
@@ -405,7 +448,13 @@ $(document).ready(function () {
                     }
                 },
                 error: function (xhr, status, error) {
-                    alert('Please enter valid card number');
+                    $().screamer({
+                        title: 'Secure Biomatrics',
+                        message: 'Please enter valid card number',
+                        button: 'Ok',
+                        overlayClose: true,
+                        theme: 'screamer-orange'
+                    });
                     $("#CandidateCardNumber").focus();
                 }
             });

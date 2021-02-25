@@ -6,6 +6,8 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @*@Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/ScreamerAlert/screamer.jquery.min.css" rel="stylesheet" />
+    <link href="~/Content/ScreamerAlert/screamer.theme.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="wrapper ml-0 mr-0">
@@ -51,5 +53,6 @@
     @*@Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/ScreamerAlert/screamer.jquery.min.js"></script>
 </body>
 </html>

@@ -343,11 +343,25 @@ namespace FomemaMedicalCard.DataLayer
                     candidateModel.PictureURL = string.IsNullOrWhiteSpace(dt.Rows[i]["PictureURL"].ToString()) ? null : dt.Rows[i]["PictureURL"].ToString();
                     candidateModel.Name = dt.Rows[i]["Name"].ToString();
                     candidateModel.DateofBirth = StrDateofBirth;
-                    candidateModel.Age = dt.Rows[i]["Age"].ToString() == "" ? 0 : Convert.ToInt32(dt.Rows[i]["Age"].ToString());
+                    if (Convert.ToString(dt.Rows[i]["Age"]) == "")
+                    {
+                        candidateModel.Age = null;
+                    }
+                    else
+                    {
+                        candidateModel.Age = Convert.ToInt32(dt.Rows[i]["Age"].ToString());
+                    }
                     candidateModel.NewPassportNo = dt.Rows[i]["NewPassportNo"].ToString();
                     candidateModel.OldPassportNo = dt.Rows[i]["OldPassportNo"].ToString();
                     candidateModel.CountryName = dt.Rows[i]["CountryName"].ToString();
-                    candidateModel.FomemaTestYear = dt.Rows[i]["FomemaTestYear"].ToString() == "" ? 0 : Convert.ToInt32(dt.Rows[i]["FomemaTestYear"].ToString());
+                    if (Convert.ToString(dt.Rows[i]["FomemaTestYear"]) == "")
+                    {
+                        candidateModel.FomemaTestYear = null;
+                    }
+                    else
+                    {
+                        candidateModel.FomemaTestYear = Convert.ToInt32(dt.Rows[i]["FomemaTestYear"].ToString());
+                    }
                     candidateModel.FomemaTestResult = dt.Rows[i]["FomemaTestResult"].ToString();
                     candidateModel.CountryName = dt.Rows[i]["CountryName"].ToString();
                     candidateModel.Covid19TestDate1 = StrCovid19TestDate1;
