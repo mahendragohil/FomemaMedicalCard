@@ -23,6 +23,8 @@ namespace FomemaMedicalCard.Models
         /// </summary>
         public string PictureURL { get; set; }
         public HttpPostedFileBase PictureFromComputer { get; set; }
+        public bool IsImageRemove { get; set; }
+
         public string CountryName { get; set; }
         public bool IsDeleted { get; set; }
         public string RedirectedPath { get; set; }

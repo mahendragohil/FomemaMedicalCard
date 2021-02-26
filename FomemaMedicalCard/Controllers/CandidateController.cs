@@ -158,7 +158,15 @@ namespace FomemaMedicalCard.Controllers
             candidateModel.FomemaTestYear = candidateModel.FomemaTestYear == 0 ? null : candidateModel.FomemaTestYear;
 
             candidateModel.CandidateCardNumber = candidateModel.CandidateCardNumber.Replace("-", "");
-            candidateModel.PictureURL = SaveAndGetImageUrl(candidateModel.CandidateGuid, candidateModel.PictureURL, candidateModel.PictureFromComputer);
+            if (candidateModel.IsImageRemove)
+            {
+                candidateModel.PictureURL = null;
+            }
+            else
+            {
+                candidateModel.PictureURL = SaveAndGetImageUrl(candidateModel.CandidateGuid, candidateModel.PictureURL, candidateModel.PictureFromComputer);
+            }
+
             candidateModel.PictureFromComputer = null;
             cadidateId = FomemaDBUtility.IUDCandidateDetails(candidateModel, candidateModel.CandidateId > 0 ? DataOperationMode.Update : DataOperationMode.Insert);
             if (cadidateId > 0)

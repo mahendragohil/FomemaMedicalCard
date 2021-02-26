@@ -512,6 +512,7 @@ function getDataFromJsGrid() {
     formData.set('Covid19TestDate4', formatDate(formData.get('Covid19TestDate4')));
     formData.set('VaccineDose1Date', formatDate(formData.get('VaccineDose1Date')));
     formData.set('VaccineDose2Date', formatDate(formData.get('VaccineDose2Date')));
+    formData.set('IsImageRemove', $('#IsImageRemove').is(":checked"));
     formData.append('PictureFromComputer', $('input[type=file]')[0].files[0]);
     formData.append('PictureURL', $('#PictureURL').attr("src"));
     candidate = formData;

@@ -41,15 +41,33 @@
         var confirmPassword = $("#text-clinicconfirmpassword").val();
 
         if (doctorsicnumber == "") {
-            alert('Please enter doctor IC number..!!');
+            $().screamer({
+                title: 'Secure Biomatrics',
+                message: 'Please enter doctor IC number..!!',
+                button: 'Ok',
+                overlayClose: true,
+                theme: 'screamer-orange'
+            });
             return;
         }
         if (password == "") {
-            alert('Please enter password..!!');
+            $().screamer({
+                title: 'Secure Biomatrics',
+                message: 'Please enter password..!!',
+                button: 'Ok',
+                overlayClose: true,
+                theme: 'screamer-orange'
+            });
             return;
         }
         if (password != confirmPassword) {
-            alert('Password and Confirm Password was not matched..!!');
+            $().screamer({
+                title: 'Secure Biomatrics',
+                message: 'Password and Confirm Password was not matched..!!',
+                button: 'Ok',
+                overlayClose: true,
+                theme: 'screamer-orange'
+            });
             return;
         }
 
@@ -86,7 +104,13 @@
                     });
                 }
                 else {
-                    alert('Given doctor IC number already exist..!!');
+                    $().screamer({
+                        title: 'Secure Biomatrics',
+                        message: 'Given doctor IC number already exist..!!',
+                        button: 'Ok',
+                        overlayClose: true,
+                        theme: 'screamer-orange'
+                    });
                 }
             },
             error: function (xhr, status, error) {
