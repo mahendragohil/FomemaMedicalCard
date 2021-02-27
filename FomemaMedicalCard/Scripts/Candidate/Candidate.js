@@ -405,22 +405,12 @@ $(document).ready(function () {
     };
 
     function saveCandidate(candidate, isNew) {
-        if ($("#Name").val() == null || $("#Name").val() == "") {
-            $().screamer({
-                title: 'Secure Biomatrics',
-                message: 'Please enter Name.',
-                button: 'Ok',
-                overlayClose: true,
-                theme: 'screamer-orange'
-            });
-            $("#Name").focus();
-            return;
-        }
+
         if (isNew) {
             if ($("#CandidateCardNumber").val() == null || $("#CandidateCardNumber").val() == "") {
                 $().screamer({
                     title: 'Secure Biomatrics',
-                    message: 'Please enter card number.',
+                    message: 'Please enter card number',
                     button: 'Ok',
                     overlayClose: true,
                     theme: 'screamer-orange'
@@ -460,7 +450,7 @@ $(document).ready(function () {
                 error: function (xhr, status, error) {
                     $().screamer({
                         title: 'Secure Biomatrics',
-                        message: 'Please enter valid card number.',
+                        message: 'Please enter valid card number',
                         button: 'Ok',
                         overlayClose: true,
                         theme: 'screamer-orange'
