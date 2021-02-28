@@ -177,17 +177,19 @@
                     </div>
                     <div class="col-md-8">
                         <div class="row">
-                            <div class="form-group form-check mt-2 mb-2">
-                                <input class="form-check-input" type="checkbox" id="IsImageRemove" name="IsImageRemove">
-                                <label class="form-check-label" for="IsImageRemove">
-                                    Image Remove
-                                </label>
-                            </div>
                             <div class="col-md-12">
                                 <input type="file" name="PictureFromComputer" id="filePictureFromComputer" value="Upload from computer" />
                             </div>
-                            <div class="col-md-6">
-                                <button type="button" id="captureImage" class="btn btn-info btn-sm mt-3" onclick="startCamera()">Camera</button>
+                            <div class="col-md-12">
+                                <table>
+                                    <tr>
+                                        <td><button type="button" id="captureImage" class="btn btn-info btn-sm mt-3 mr-2" onclick="startCamera()">Camera</button></td>
+                                        <td><input type="checkbox" id="IsImageRemove" name="IsImageRemove" class="mr-2 mt-3" style="width:auto;"></td>
+                                        <td>
+                                            <label for="IsImageRemove" style="width:auto;" class="mt-4">Set Default Image</label>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                             <div id="snapShot" class="col-md-12  mt-3">
                                 @*dynamically captured image will come here*@

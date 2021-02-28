@@ -368,6 +368,7 @@ $(document).ready(function () {
             $("#save").text("Save");
             $("#CandidateCardNumber").removeAttr("readonly")
         }
+        $('#IsImageRemove').prop('checked', false);
         $("#filePictureFromComputer").val('');
         $("#CandidateId").val(candidate.CandidateId);
         $("#CandidateCardNumber").val(candidate.CandidateCardNumber);
