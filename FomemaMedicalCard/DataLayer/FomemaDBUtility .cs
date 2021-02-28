@@ -87,10 +87,16 @@ namespace FomemaMedicalCard.DataLayer
                     StrVaccineDose2Date = VaccineDose2Date.ToString("dd-MM-yyyy");
                 }
 
-
                 candidateModel.PictureURL = dt.Rows[0]["PictureURL"].ToString();
                 candidateModel.Name = dt.Rows[0]["Name"].ToString();
-                candidateModel.Age = Convert.ToInt32(dt.Rows[0]["Age"].ToString());
+                if (Convert.ToString(dt.Rows[0]["Age"]) == "")
+                {
+                    candidateModel.Age = null;
+                }
+                else
+                {
+                    candidateModel.Age = Convert.ToInt32(dt.Rows[0]["Age"].ToString());
+                }
                 string CardNumber = Convert.ToString(dt.Rows[0]["CandidateCardNumber"].ToString());
                 candidateModel.CandidateCardNumber = string.Format("{0}-{1}-{2}", CardNumber.Substring(0, 3),
                           CardNumber.Substring(3, 3), CardNumber.Substring(6));
