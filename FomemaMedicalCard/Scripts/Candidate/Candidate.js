@@ -406,7 +406,7 @@ $(document).ready(function () {
     };
 
     function saveCandidate(candidate, isNew) {
-        if ($("#Name").val() == null || $("#Name").val() == "") {
+        if ($("#Name").val() == null || $.trim($("#Name").val()) == "") {
             $().screamer({
                 title: 'Secure Biomatrics',
                 message: 'Please enter Name.',
