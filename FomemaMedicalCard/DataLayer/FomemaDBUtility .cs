@@ -63,27 +63,27 @@ namespace FomemaMedicalCard.DataLayer
                 }
                 if (dt.Rows[0]["Covid19TestDate2"] != DBNull.Value)
                 {
-                    DateTime Covid19TestDate2 = Convert.ToDateTime(dt.Rows[0]["Covid19TestDate1"]);
+                    DateTime Covid19TestDate2 = Convert.ToDateTime(dt.Rows[0]["Covid19TestDate2"]);
                     StrCovid19TestDate2 = Covid19TestDate2.ToString("dd-MM-yyyy");
                 }
                 if (dt.Rows[0]["Covid19TestDate3"] != DBNull.Value)
                 {
-                    DateTime Covid19TestDate3 = Convert.ToDateTime(dt.Rows[0]["Covid19TestDate1"]);
+                    DateTime Covid19TestDate3 = Convert.ToDateTime(dt.Rows[0]["Covid19TestDate3"]);
                     StrCovid19TestDate3 = Covid19TestDate3.ToString("dd-MM-yyyy");
                 }
                 if (dt.Rows[0]["Covid19TestDate4"] != DBNull.Value)
                 {
-                    DateTime Covid19TestDate4 = Convert.ToDateTime(dt.Rows[0]["Covid19TestDate1"]);
+                    DateTime Covid19TestDate4 = Convert.ToDateTime(dt.Rows[0]["Covid19TestDate4"]);
                     StrCovid19TestDate4 = Covid19TestDate4.ToString("dd-MM-yyyy");
                 }
                 if (dt.Rows[0]["VaccineDose1Date"] != DBNull.Value)
                 {
-                    DateTime VaccineDose1Date = Convert.ToDateTime(dt.Rows[0]["Covid19TestDate1"]);
+                    DateTime VaccineDose1Date = Convert.ToDateTime(dt.Rows[0]["VaccineDose1Date"]);
                     StrVaccineDose1Date = VaccineDose1Date.ToString("dd-MM-yyyy");
                 }
                 if (dt.Rows[0]["VaccineDose2Date"] != DBNull.Value)
                 {
-                    DateTime VaccineDose2Date = Convert.ToDateTime(dt.Rows[0]["Covid19TestDate1"]);
+                    DateTime VaccineDose2Date = Convert.ToDateTime(dt.Rows[0]["VaccineDose2Date"]);
                     StrVaccineDose2Date = VaccineDose2Date.ToString("dd-MM-yyyy");
                 }
 
@@ -314,17 +314,17 @@ namespace FomemaMedicalCard.DataLayer
                     }
                     if (dt.Rows[i]["Covid19TestDate2"] != DBNull.Value)
                     {
-                        DateTime Covid19TestDate2 = Convert.ToDateTime(dt.Rows[i]["Covid19TestDate1"]);
+                        DateTime Covid19TestDate2 = Convert.ToDateTime(dt.Rows[i]["Covid19TestDate2"]);
                         StrCovid19TestDate2 = Covid19TestDate2.ToString("dd-MM-yyyy");
                     }
                     if (dt.Rows[i]["Covid19TestDate3"] != DBNull.Value)
                     {
-                        DateTime Covid19TestDate3 = Convert.ToDateTime(dt.Rows[i]["Covid19TestDate1"]);
+                        DateTime Covid19TestDate3 = Convert.ToDateTime(dt.Rows[i]["Covid19TestDate3"]);
                         StrCovid19TestDate3 = Covid19TestDate3.ToString("dd-MM-yyyy");
                     }
                     if (dt.Rows[i]["Covid19TestDate4"] != DBNull.Value)
                     {
-                        DateTime Covid19TestDate4 = Convert.ToDateTime(dt.Rows[i]["Covid19TestDate1"]);
+                        DateTime Covid19TestDate4 = Convert.ToDateTime(dt.Rows[i]["Covid19TestDate4"]);
                         StrCovid19TestDate4 = Covid19TestDate4.ToString("dd-MM-yyyy");
                     }
                     if (dt.Rows[i]["VaccineDose1Date"] != DBNull.Value)
